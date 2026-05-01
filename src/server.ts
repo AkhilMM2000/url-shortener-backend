@@ -7,6 +7,7 @@ import { setupDI } from "./infrastructure/config/dependencyContainer";
 import { getAuthRoutes } from "./presentation/routes/authRoutes";
 import { API_ROUTES } from "./shared/constants/apiRoutes";
 import { connectDB } from "./infrastructure/database/connection";
+import { ErrorHandlerMiddleware } from "./presentation/middleware/errorHandler";
 
 dotenv.config();
 
@@ -23,12 +24,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Routes
 app.use(API_ROUTES.AUTH.BASE, getAuthRoutes());
+
 // Global Error Handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ error: "Internal Server Error" });
-});
+app.use(ErrorHandlerMiddleware.handle);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
