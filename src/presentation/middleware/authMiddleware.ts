@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { ITokenService } from '../../application/services/ITokenService';
 import { InvalidTokenError } from '../../domain/errors/DomainError';
 import { DI_TOKENS } from '../../shared/constants/diTokens';
+import { ERROR_MESSAGES } from '../../shared/constants/errorMessages';
 
 declare global {
   namespace Express {
@@ -16,7 +17,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new InvalidTokenError('Authorization header missing or invalid');
+      throw new InvalidTokenError(ERROR_MESSAGES.AUTH.TOKEN_REQUIRED);
     }
 
     const token = authHeader.split(' ')[1];

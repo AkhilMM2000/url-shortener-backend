@@ -1,3 +1,5 @@
+import { ERROR_MESSAGES } from '../../shared/constants/errorMessages';
+
 export class DomainError extends Error {
   constructor(message: string) {
     super(message);
@@ -8,20 +10,20 @@ export class DomainError extends Error {
 
 export class EmailAlreadyExistsError extends DomainError {
   constructor(email: string) {
-    super(`User with email ${email} already exists.`);
+    super(ERROR_MESSAGES.AUTH.USER_ALREADY_EXISTS(email));
     this.name = 'EmailAlreadyExistsError';
   }
 }
 
 export class InvalidCredentialsError extends DomainError {
   constructor() {
-    super('Invalid email or password');
+    super(ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS);
     this.name = 'InvalidCredentialsError';
   }
 }
 
 export class InvalidTokenError extends DomainError {
-  constructor(message = 'Invalid or expired token') {
+  constructor(message = ERROR_MESSAGES.AUTH.INVALID_TOKEN) {
     super(message);
     this.name = 'InvalidTokenError';
   }

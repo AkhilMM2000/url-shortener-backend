@@ -7,9 +7,9 @@ export function getAuthRoutes() {
   const router = Router();
   const authController = container.resolve(AuthController);
   
-  router.post(API_ROUTES.AUTH.REGISTER, authController.register);
-  router.post(API_ROUTES.AUTH.LOGIN, authController.login);
-  router.post(API_ROUTES.AUTH.REFRESH, authController.refreshToken);
+  router.post(API_ROUTES.AUTH.REGISTER, authController.register.bind(authController));
+  router.post(API_ROUTES.AUTH.LOGIN, authController.login.bind(authController));
+  router.post(API_ROUTES.AUTH.REFRESH, authController.refreshToken.bind(authController));
   
   return router;
 }

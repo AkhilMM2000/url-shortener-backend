@@ -5,6 +5,7 @@ import { IUserRepository } from '../../../domain/repositories/IUserRepository';
 import { ITokenService } from '../../services/ITokenService';
 import { InvalidTokenError } from '../../../domain/errors/DomainError';
 import { DI_TOKENS } from '../../../shared/constants/diTokens';
+import { ERROR_MESSAGES } from '../../../shared/constants/errorMessages';
 
 @injectable()
 export class RefreshToken implements IRefreshTokenUseCase {
@@ -15,7 +16,7 @@ export class RefreshToken implements IRefreshTokenUseCase {
 
   async execute(refreshTokenStr: string): Promise<LoginUserOutput> {
     if (!refreshTokenStr) {
-      throw new InvalidTokenError('Refresh token is required');
+      throw new InvalidTokenError(ERROR_MESSAGES.AUTH.REFRESH_TOKEN_REQUIRED);
     }
 
     try {
@@ -23,7 +24,7 @@ export class RefreshToken implements IRefreshTokenUseCase {
       
       const user = await this.userRepository.findById(payload.userId);
       if (!user) {
-         throw new InvalidTokenError('User no longer exists');
+         throw new InvalidTokenError(ERROR_MESSAGES.AUTH.USER_NOT_FOUND);
       }
 
       const newAccessToken = this.tokenService.generateAccessToken({ userId: user.id });
@@ -36,7 +37,8 @@ export class RefreshToken implements IRefreshTokenUseCase {
         }
       };
     } catch (error) {
-      throw new InvalidTokenError('Invalid or expired refresh token');
+      if (error instanceof InvalidTokenError) throw error;
+      throw new InvalidTokenError(ERROR_MESSAGES.AUTH.INVALID_TOKEN);
     }
   }
 }
