@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
-import { DomainError, EmailAlreadyExistsError } from '../../domain/errors/DomainError';
+import { DomainError, EmailAlreadyExistsError, InvalidCredentialsError, InvalidTokenError } from '../../domain/errors/DomainError';
 import { HttpStatus } from '../../shared/constants/httpStatusCodes';
 
 export class ErrorHandlerMiddleware {
@@ -15,6 +15,11 @@ export class ErrorHandlerMiddleware {
 
     if (err instanceof EmailAlreadyExistsError) {
       res.status(HttpStatus.CONFLICT).json({ error: err.message });
+      return;
+    }
+
+    if (err instanceof InvalidCredentialsError || err instanceof InvalidTokenError) {
+      res.status(HttpStatus.UNAUTHORIZED).json({ error: err.message });
       return;
     }
 

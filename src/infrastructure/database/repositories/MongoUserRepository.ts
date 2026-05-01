@@ -17,6 +17,18 @@ export class MongoUserRepository implements IUserRepository {
     };
   }
 
+  async findById(id: string): Promise<User | null> {
+    const userDoc = await UserModel.findById(id).lean();
+    if (!userDoc) return null;
+
+    return {
+      id: userDoc._id.toString(),
+      email: userDoc.email,
+      passwordHash: userDoc.passwordHash,
+      createdAt: userDoc.createdAt as Date,
+    };
+  }
+
   async save(user: Omit<User, 'id' | 'createdAt'>): Promise<User> {
     const newUser = new UserModel(user);
     const savedUser = await newUser.save();

@@ -8,6 +8,8 @@ export function getAuthRoutes() {
   const authController = container.resolve(AuthController);
   
   router.post(API_ROUTES.AUTH.REGISTER, authController.register);
+  router.post(API_ROUTES.AUTH.LOGIN, authController.login);
+  router.post(API_ROUTES.AUTH.REFRESH, authController.refreshToken);
   
   return router;
 }
