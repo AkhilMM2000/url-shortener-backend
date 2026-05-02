@@ -1,4 +1,4 @@
 export interface CreateShortUrlOutput {
-  shortUrl: string;
+  shortCode: string;
   originalUrl: string;
 }

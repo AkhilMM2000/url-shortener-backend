@@ -30,10 +30,13 @@ export class UrlController {
     const output = await this._createShortUrl.execute({
       userId,
       originalUrl: validatedBody.originalUrl,
-      baseUrl
     });
 
-    res.status(HttpStatus.CREATED).json(output);
+    // 3. Construct full short URL in the Presentation Layer
+    res.status(HttpStatus.CREATED).json({
+      shortUrl: `${baseUrl}/${output.shortCode}`,
+      originalUrl: output.originalUrl
+    });
   });
 
   public redirect = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {

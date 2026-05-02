@@ -2,9 +2,9 @@ import { ShortUrl } from '../../domain/models/ShortUrl';
 import { CreateShortUrlOutput } from '../dtos/url/CreateShortUrlOutput';
 
 export class ShortUrlMapper {
-  static toCreateOutput(domainEntity: ShortUrl, baseUrl: string): CreateShortUrlOutput {
+  static toCreateOutput(domainEntity: ShortUrl): CreateShortUrlOutput {
     return {
-      shortUrl: `${baseUrl}/${domainEntity.shortCode}`,
+      shortCode: domainEntity.shortCode,
       originalUrl: domainEntity.originalUrl,
     };
   }
