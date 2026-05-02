@@ -6,4 +6,8 @@ export const API_ROUTES = {
     REFRESH: '/refresh',
     LOGOUT: '/logout',
   },
+  URL: {
+    BASE: '/api/urls',
+    CREATE: '/',
+  }
 };

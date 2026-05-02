@@ -28,3 +28,17 @@ export class InvalidTokenError extends DomainError {
     this.name = 'InvalidTokenError';
   }
 }
+
+export class ShortUrlNotFoundError extends DomainError {
+  constructor() {
+    super('Short URL not found');
+    this.name = 'ShortUrlNotFoundError';
+  }
+}
+
+export class UrlGenerationError extends DomainError {
+  constructor() {
+    super('Failed to generate a unique short URL after multiple attempts. Please try again.');
+    this.name = 'UrlGenerationError';
+  }
+}

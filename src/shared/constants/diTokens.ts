@@ -5,5 +5,7 @@ export const DI_TOKENS = {
   ITokenService: Symbol.for('ITokenService'),
   ILoginUserUseCase: Symbol.for('ILoginUserUseCase'),
   IRefreshTokenUseCase: Symbol.for('IRefreshTokenUseCase'),
+  IShortUrlRepository: Symbol.for('IShortUrlRepository'),
+  CreateShortUrl: Symbol.for('CreateShortUrl'),
+  RedirectUrl: Symbol.for('RedirectUrl'),
 };
-
