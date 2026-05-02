@@ -55,7 +55,7 @@ export class AuthController {
 
   public logout = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
-    console.log('signin out reached')
+    
     res.clearCookie('refreshToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

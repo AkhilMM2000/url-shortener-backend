@@ -20,6 +20,6 @@ export function setupDI() {
   container.registerSingleton(DI_TOKENS.IRegisterUserUseCase, RegisterUser);
   container.registerSingleton(DI_TOKENS.ILoginUserUseCase, LoginUser);
   container.registerSingleton(DI_TOKENS.IRefreshTokenUseCase, RefreshToken);
-  container.registerSingleton(DI_TOKENS.CreateShortUrl, CreateShortUrl);
-  container.registerSingleton(DI_TOKENS.RedirectUrl, RedirectUrl);
+  container.registerSingleton(DI_TOKENS.ICreateShortUrlUseCase, CreateShortUrl);
+  container.registerSingleton(DI_TOKENS.IRedirectUrlUseCase, RedirectUrl);
 }

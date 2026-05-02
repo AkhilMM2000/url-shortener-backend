@@ -6,6 +6,6 @@ export const DI_TOKENS = {
   ILoginUserUseCase: Symbol.for('ILoginUserUseCase'),
   IRefreshTokenUseCase: Symbol.for('IRefreshTokenUseCase'),
   IShortUrlRepository: Symbol.for('IShortUrlRepository'),
-  CreateShortUrl: Symbol.for('CreateShortUrl'),
-  RedirectUrl: Symbol.for('RedirectUrl'),
+  ICreateShortUrlUseCase: Symbol.for('ICreateShortUrlUseCase'),
+  IRedirectUrlUseCase: Symbol.for('IRedirectUrlUseCase'),
 };

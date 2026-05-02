@@ -4,20 +4,13 @@ import { IShortUrlRepository } from '../../../domain/repositories/IShortUrlRepos
 import { DI_TOKENS } from '../../../shared/constants/diTokens';
 import { ShortUrl } from '../../../domain/models/ShortUrl';
 import { UrlGenerationError } from '../../../domain/errors/DomainError';
-
-export interface CreateShortUrlInput {
-  userId: string;
-  originalUrl: string;
-  baseUrl: string;
-}
-
-export interface CreateShortUrlOutput {
-  shortUrl: string;
-  originalUrl: string;
-}
+import { ICreateShortUrlUseCase } from './ICreateShortUrlUseCase';
+import { CreateShortUrlInput } from '../../dtos/url/CreateShortUrlInput';
+import { CreateShortUrlOutput } from '../../dtos/url/CreateShortUrlOutput';
+import { ShortUrlMapper } from '../../mappers/ShortUrlMapper';
 
 @injectable()
-export class CreateShortUrl {
+export class CreateShortUrl implements ICreateShortUrlUseCase {
   constructor(
     @inject(DI_TOKENS.IShortUrlRepository) private _shortUrlRepository: IShortUrlRepository
   ) {}
@@ -28,10 +21,7 @@ export class CreateShortUrl {
     // Option A: If the user already shortened this exact URL, return the existing one
     const existing = await this._shortUrlRepository.findByUserIdAndUrl(userId, originalUrl);
     if (existing) {
-      return {
-        shortUrl: `${baseUrl}/${existing.shortCode}`,
-        originalUrl: existing.originalUrl
-      };
+      return ShortUrlMapper.toCreateOutput(existing, baseUrl);
     }
 
     // Try to generate and save a new short URL, handling extremely rare collisions
@@ -49,10 +39,7 @@ export class CreateShortUrl {
 
       try {
         const savedUrl = await this._shortUrlRepository.save(newShortUrl);
-        return {
-          shortUrl: `${baseUrl}/${savedUrl.shortCode}`,
-          originalUrl: savedUrl.originalUrl
-        };
+        return ShortUrlMapper.toCreateOutput(savedUrl, baseUrl);
       } catch (error: any) {
         // Mongoose duplicate key error code is 11000
         if (error.code === 11000) {
