@@ -39,7 +39,7 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      maxAge: parseInt(process.env.COOKIE_MAX_AGE || '604800000', 10)
     });
 
     res.status(HttpStatus.OK).json(output);
@@ -51,5 +51,15 @@ export class AuthController {
     const output = await this._refreshTokenUseCase.execute(refreshToken);
 
     res.status(HttpStatus.OK).json(output);
+  });
+
+  public logout = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
+
+    res.status(HttpStatus.OK).json({ message: 'Logged out successfully' });
   });
 }

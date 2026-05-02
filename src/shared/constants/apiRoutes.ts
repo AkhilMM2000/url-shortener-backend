@@ -4,5 +4,6 @@ export const API_ROUTES = {
     REGISTER: '/register',
     LOGIN: '/login',
     REFRESH: '/refresh',
+    LOGOUT: '/logout',
   },
 };
