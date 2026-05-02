@@ -38,6 +38,7 @@ export class UrlController {
       originalUrl: output.originalUrl
     });
   });
+  
 
   public redirect = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const shortCode = req.params.shortCode as string;
