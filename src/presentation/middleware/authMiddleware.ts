@@ -24,10 +24,17 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
   
     const tokenService = container.resolve<ITokenService>(DI_TOKENS.ITokenService);
    
-    const payload = tokenService.verifyAccessToken(token);
-
-    req.user = { userId: payload.userId };
-    next();
+    try {
+      const payload = tokenService.verifyAccessToken(token);
+      req.user = { userId: payload.userId };
+      next();
+    } catch (jwtError: any) {
+      // Map JWT specific errors to our Domain errors
+      if (jwtError.name === 'TokenExpiredError') {
+        throw new InvalidTokenError(ERROR_MESSAGES.AUTH.INVALID_TOKEN);
+      }
+      throw new InvalidTokenError(ERROR_MESSAGES.AUTH.INVALID_TOKEN);
+    }
   } catch (error) {
     next(error);
   }

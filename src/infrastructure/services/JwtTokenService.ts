@@ -1,6 +1,8 @@
+import { injectable } from 'tsyringe';
 import jwt from 'jsonwebtoken';
 import { ITokenService, TokenPayload } from '../../application/services/ITokenService';
 
+@injectable()
 export class JwtTokenService implements ITokenService {
   generateAccessToken(payload: TokenPayload): string {
     return jwt.sign(payload, process.env.JWT_ACCESS_SECRET || 'default_access_secret', { expiresIn: '1m' });
