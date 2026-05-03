@@ -3,7 +3,7 @@ import { ITokenService, TokenPayload } from '../../application/services/ITokenSe
 
 export class JwtTokenService implements ITokenService {
   generateAccessToken(payload: TokenPayload): string {
-    return jwt.sign(payload, process.env.JWT_ACCESS_SECRET || 'default_access_secret', { expiresIn: '15m' });
+    return jwt.sign(payload, process.env.JWT_ACCESS_SECRET || 'default_access_secret', { expiresIn: '1m' });
   }
 
   generateRefreshToken(payload: TokenPayload): string {

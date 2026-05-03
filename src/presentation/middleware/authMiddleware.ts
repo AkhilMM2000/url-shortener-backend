@@ -21,8 +21,9 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     }
 
     const token = authHeader.split(' ')[1];
-    
+  
     const tokenService = container.resolve<ITokenService>(DI_TOKENS.ITokenService);
+   
     const payload = tokenService.verifyAccessToken(token);
 
     req.user = { userId: payload.userId };

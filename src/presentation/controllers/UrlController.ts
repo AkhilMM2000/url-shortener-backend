@@ -17,7 +17,7 @@ export class UrlController {
   public create = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // 1. Zod Validation (Presentation Layer)
     const validatedBody = createShortUrlSchema.parse(req.body);
-    
+ 
     // Auth middleware attaches user payload to req.user
     const userId = (req as any).user.userId;
     
