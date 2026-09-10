@@ -24,6 +24,13 @@ const startServer = async () => {
 
     const app = express();
     const PORT = process.env.PORT || 5000;
+app.get("/health", (req, res) => {
+  console.log('first')
+  res.send("URL Shortener API is running");
+});
+
+
+
 
     // Middleware
     app.use(cors({
@@ -43,6 +50,8 @@ const startServer = async () => {
     // Global Error Handler
     app.use(ErrorHandlerMiddleware.handle);
 
+
+
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);
     });
@@ -51,6 +60,9 @@ const startServer = async () => {
     process.exit(1);
   }
 };
+
+
+
 
 startServer();
 
